@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container form__sigup">
+    <div class="row">
+        <form action="{{url_for('user_blueprint.update_car', uuid=uuid_item)}}" method="POST" class="col s12">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="input-field col s12">
+                    {{ form.count.label() }}
+                    {{ form.count() }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    {{ form.submit(class_="btn teal darken-2") }}
+                    <a href="{{url_for('user_blueprint.car')}}" class="btn teal darken-2">Назад</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

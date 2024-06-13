@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container search">
+    <div class="row">
+        <form class="row g-12" method="POST" accept="{{url_for('manager_blueprint.registrate_table')}}">
+            <div class="col">
+              {{ form.state_order.label(class_="visually-hidden") }}
+              {{ form.state_order(class_="form-select") }}
+            </div>
+            <div class="col">
+              {{ form.submit(class_="btn btn-primary mb-") }}
+            </div>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        {% if regs %}
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ФИО</th>
+                    <th scope="col">Телефон</th>
+                    <th scope="col">Статус заявки</th>
+                    <th scope="col">Пекарня</th>
+                    <th scope="col">Дата бронирования</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for reg in regs %}
+                        <tr>
+                            <td>{{reg.surname}} {{reg.name[0]}}. {{reg.patronymics[0]}}.</td>
+                            <td>{{reg.phone}}</td>
+                            <td>{{state_order[reg.status_registrate.value]}}</td>
+                            <td>{{reg.bakery.name}}</td>
+                            <td>{{reg.data_registrate}}</td>
+                            <td><a href="{{url_for('manager_blueprint.info_reg_table',  uuid=reg.trace_id)}}" class="btn btn-danger">Подробнее</a></td>
+                            <td><a href="{{url_for('manager_blueprint.update_reg_table',  uuid=reg.trace_id)}}" class="btn btn-danger">Редактировать</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        {% else %}
+            <h1>Заявок нет</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

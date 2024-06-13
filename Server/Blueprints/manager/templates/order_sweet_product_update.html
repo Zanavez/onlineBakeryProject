@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+            <div class="col-md-4">
+                <img src="{{url_for('static', filename='img/' + product.sweet_product.image)}}" class="img-fluid" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.sweet_product.name}}</h5>
+                    <p class="card-text">{{product.sweet_product.description}}</p>
+                    <p class="card-text">Цена: {{product.sweet_product.price_sweet}}</p>
+                    <p class="card-text">Вес: {{product.sweet_product.weight_sweet}}</p>
+                    <p class="card-text">
+                        Ингредиенты: {% for i in product.sweet_product.ingredients %}
+                        {{i.name}}
+                        {% endfor %}
+                    </p>
+                    <form method="POST" action="{{url_for('manager_blueprint.order_car_update', id_order=product.id_order, id_sweet_product=product.id_sweet_product)}}">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ form.count.label(class_="form-label") }}
+                            {{ form.count(class_="form-control", rows="3", min="0") }}
+                        </div>
+                        {{ form.submit(class_="btn btn-primary") }}
+                        <a href="{{url_for('manager_blueprint.back_order',  id_order=product.id_order)}}" class="btn btn-danger">Отмена</a>
+                    </form>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+{% endblock %}

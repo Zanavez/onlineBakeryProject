@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="/registration" method="POST" class="form__sigup">
+    {% for field, errors in form.errors.items() %}
+        <div class="alert alert-danger" role="alert">
+            {{ form[field].label }}: {{ ', '.join(errors) }}
+        </div>
+    {% endfor %}
+    {{ form.hidden_tag() }}
+    <div class="row form__pad">
+        <div class="col">
+            {{ form.name.label(class_="form-label") }}
+            {{ form.name(class_="form-control") }}
+        </div>
+        <div class="col">
+            {{ form.surname.label(class_="form-label") }}
+            {{ form.surname(class_="form-control") }}
+        </div>
+        <div class="col">
+            {{ form.patronymics.label(class_="form-label") }}
+            {{ form.patronymics(class_="form-control") }}
+        </div>
+    </div>
+
+    <div class="row form__pad">
+        <div class="col">
+            {{ form.email.label(class_="form-label") }}
+            {{ form.email(class_="form-control", size=32) }}
+        </div>
+        <div class="col">
+            {{ form.phone.label(class_="form-label") }}
+            {{ form.phone(class_="form-control", size=32) }}
+        </div>
+    </div>
+    <div class="row form__pad">
+        <div class="col-md-12">
+            {{ form.password.label(class_="form-label") }}
+            {{ form.password(class_="form-control", size=32) }}
+        </div>
+    </div>
+
+    <div class="row form__pad">
+        <div class="col-md-12">
+            {{ form.confirm.label(class_="form-label") }}
+            {{ form.confirm(class_="form-control", size=32) }}
+        </div>
+    </div>
+
+    <div class="row form__pad">
+        <div class="col-md-1">
+            {{ form.submit(class_="btn btn-primary") }}
+        </div>
+    </div>
+</form>
+
+
+{% endblock %}

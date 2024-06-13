@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h1 style="text-align: center; margin-top: 30px; margin-bottom: 30px">Номер брони</h1>
+        <h3>{{reg.trace_id}}</h3>
+    </div>
+    <div class="row">
+        <h1>Информация о брони</h1>
+        <p>ФИО: {{reg.surname}} {{reg.name[0]}}. {{reg.patronymics[0]}}.</p>
+        <p>Дата бронирования: {{reg.data_registrate}}</p>
+        <p>Телефон: {{reg.phone}}</p>
+        <p>Пекарня: {{reg.bakery.name}}</p>
+
+        {% if reg.table_id != None  %}
+            <p>Столик: {{reg.table.name}}</p>
+        {% endif %}
+        {% if reg.order_id != None  %}
+            <p><a href="{{url_for('manager_blueprint.order_update',  uuid=reg.order.trace_id)}}" class="btn">Подробнее</a></p>
+        {% endif %}
+        <p>Состояние заказа: {{state_order[reg.status_registrate.value]}}</p>
+       <p>Начало: {{start_time}}</p>
+       <p>Конец: {{end_time}}</p>
+    </div>
+</div>
+{% endblock %}

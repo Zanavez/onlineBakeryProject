@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% if users %}
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Фамилия</th>
+                    <th scope="col">Отчество</th>
+                    <th scope="col">Телефон</th>
+                    <th scope="col">Почта</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                          <td>{{user.name}}</td>
+                          <td>{{user.surname}}</td>
+                          <td>{{user.patronymics}}</td>
+                          <td>{{user.phone}}</td>
+                          <td>{{user.email}}</td>
+                          <td><a href="{{url_for('manager_blueprint.user_update',  uuid=user.trace_id)}}" class="btn btn-danger">Редактировать</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        {% else %}
+            <h1>Пользователей нет</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

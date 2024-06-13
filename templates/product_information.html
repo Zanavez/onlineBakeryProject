@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h1 style="text-align: center; margin-top: 30px; margin-bottom: 30px">Подробная информация</h1>
+</div>
+
+<div class="container">
+    <div class="row" style="justify-content: center; padding: 50px; border-radius: 50px 0; border: 3px solid #ff5e00; font-size: 20px;">
+            <div class="col-md-4">
+                <img src="{{url_for('static', filename='img/' + product.image)}}" class="img-fluid" alt="..." style="border: 2px solid #ff5e00; ">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.name}}</h5>
+                    <p class="card-text">{{product.description}}</p>
+                    <p class="card-text">Цена: {{product.price_sweet}}</p>
+                    <p class="card-text">Вес: {{product.weight_sweet}}</p>
+                    <p class="card-text">
+                        Ингредиенты: {% for i in product.ingredients %}
+                        {{i.name}}
+                        {% endfor %}
+                    </p>
+                    <a href="{{url_for('user_blueprint.add_car',  uuid=product.trace_id)}}" class="btn btn-success" style="background-color: #ff5e00; border-color: #ff5e00; color: #ffffff; margin-left: 10px">В корзину</a>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+{% endblock %}

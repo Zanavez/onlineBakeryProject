@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+    <h1 style="text-align: center; margin-top: 30px; margin-bottom: 30px">Заказ</h1>
+</div>
+<div class="row">
+    <p>Информация о заказе</p>
+    {% for prod in products %}
+        <div class="col-12 prod_card">
+            <div class="row">
+                <div class="col-2">
+                    <h5>{{prod.sweet_product.name}}</h5>
+                </div>
+                <div class="col-3">
+                    <p> Ингредиенты: {% for i in prod.sweet_product.ingredients %}
+                        {{i.name}}
+                        {% endfor %}</p>
+                </div>
+                <div class="col-1">
+                    <p>Кол: {{prod.count}}</p>
+                </div>
+                <div class="col-3">
+                    <p>Общая цена: {{prod.count * prod.price}} руб.</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="row">
+        <h2>{{sum_cart}} руб.</h2>
+    </div>
+</div>
+ <div class="row">
+    <form method="POST" action="{{url_for('user_blueprint.create_order')}}">
+        {{ form.hidden_tag() }}
+        {% for field, errors in form.errors.items() %}
+            <div class="alert alert-danger" role="alert">
+                {{ form[field].label }}: {{ ', '.join(errors) }}
+            </div>
+        {% endfor %}
+        <div class="address_order">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="in_hall-tab" data-bs-toggle="tab" data-bs-target="#in_hall" type="button" role="tab" aria-controls="home" aria-selected="true">В зале</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="delivery-tab" data-bs-toggle="tab" data-bs-target="#delivery" type="button" role="tab" aria-controls="profile" aria-selected="false">Бронирование</button>
+                </li>
+            </ul>
+            <div class="tab-content tab_marg" id="myTabContent">
+                <div class="tab-pane fade show active" id="in_hall" role="tabpanel" aria-labelledby="in_hall-tab">
+                    {{ form.bakeries.label(class_="form-label") }}
+                    {{ form.bakeries(class_="form-select form-select-lg mb-3") }}
+                </div>
+                <div class="tab-pane fade" id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
+                    <div class="row">
+                        {{ form.bakeries.label(class_="form-label") }}
+                        {{ form.bakeries(class_="form-select form-select-lg mb-3") }}
+                    </div>
+                    <div class="row">
+                        {{ form.date_reg.label(class_="form-label") }}
+                        {{ form.date_reg(class_="form-control", size=32) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            {{ form.type_payment(class_="form-select") }}
+        </div>
+        <div class="mb-3">
+            {{ form.description.label(class_="form-label") }}
+            {{ form.description(class_="form-control", rows="3") }}
+        </div>
+        {{ form.submit(class_="btn btn-primary") }}
+
+    </form>
+ </div>
+</div>
+<script>
+    let in_hull_button = document.getElementById("in_hall-tab")
+    let delivery_button = document.getElementById("delivery-tab")
+    let type_order_input = document.getElementById("type_order")
+    in_hull_button.addEventListener("click", () => {
+        type_order_input.value = 1
+    })
+    delivery_button.addEventListener("click", () => {
+        type_order_input.value = 2
+    })
+</script>
+{% endblock %}

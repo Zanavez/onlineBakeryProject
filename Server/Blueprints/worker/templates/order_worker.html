@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container search">
+    <div class="row">
+        <form class="row g-12" method="POST" accept="{{url_for('worker_blueprint.order')}}">
+            <div class="col">
+              {{ form.state_order.label(class_="visually-hidden") }}
+              {{ form.state_order(class_="form-select") }}
+            </div>
+            <div class="col">
+              {{ form.submit(class_="btn btn-primary mb-") }}
+            </div>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        {% if orders %}
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Время заказа</th>
+                    <th scope="col">Тип заказа</th>
+                    <th scope="col">Статус заказа</th>
+                    <th scope="col">Наполнение</th>
+                    <th scope="col">Адрес</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{order.datatime_order}}</td>
+                            <td>{{type_order[order.type_order.value]}}</td>
+                            <td>{{state_order[order.status_order.value]}}</td>
+                            <td>{% for i in order.sweet_products %}
+                            {{i}}
+                            {% endfor %}</td>
+                            <td>{{order.address}}</td>
+                            <td><a href="{{url_for('worker_blueprint.order_info',  uuid=order.trace_id)}}" class="btn btn-danger">Подробнее</a></td>
+                            <td><a href="{{url_for('worker_blueprint.order_update_state',  uuid=order.trace_id)}}" class="btn btn-danger">Изменить статус</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        {% else %}
+            <h1>Заказов нет</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

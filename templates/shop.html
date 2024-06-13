@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <h1 style="text-align: center; margin-top: 30px; margin-bottom: 30px">Магазин товаров</h1>
+</div>
+
+<div class="container search">
+  <div class="row" style="justify-content: center">
+      <form class="row g-12" method="POST" accept="{{url_for('shop')}}">
+          <div class="col">
+            {{ form.tag.label(class_="visually-hidden") }}
+            {{ form.tag(class_="form-select") }}
+          </div>
+          <div class="col">
+            {{ form.submit(class_="btn btn-primary ") }}
+          </div>
+      </form>
+  </div>
+</div>
+
+<div class="container shop">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for entity in sweet_products %}
+        <div class="col">
+            <div class="card h-100">
+                <img src="{{url_for('static', filename='img/' + entity.image)}}" class="img-fluid" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{entity.name}}</h5>
+                  <p class="card-text" style="font-size: 18px">Цена: {{entity.price_sweet}} руб.</p>
+                  <p class="card-text" style="font-size: 18px">Вес: {{entity.weight_sweet}} гр.</p>
+                  <p class="card-text" style="font-size: 18px">Тип: {{entity.type.name}}</p>
+                  <div class="btn-group">
+                    <a href="{{url_for('product', uuid=entity.trace_id)}}" class="btn btn-primary">Подробная информация</a>
+                    <a href="{{url_for('user_blueprint.add_car',  uuid=entity.trace_id)}}" class="btn btn-success" style="background-color: #ffffff; color: #ff5e00; margin-left: 10px; border: 1px solid #ff5e00;">В корзину</a>
+                  </div>
+                </div>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

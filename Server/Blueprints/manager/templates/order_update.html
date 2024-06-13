@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h1 style="text-align: center; margin-top: 30px; margin-bottom: 30px">Номер заказа</h1>
+        <h3>{{order.trace_id}}</h3>
+    </div>
+    <div class="row">
+        {% for prod in order.sweet_products %}
+        <div class="col-12 prod_card">
+            <div class="row">
+                <div class="col-2">
+                    <img src="{{url_for('static', filename='img/' + prod.sweet_product.image)}}" class="img_prod_card" alt="...">
+                </div>
+                <div class="col-2">
+                    <h2>{{prod.sweet_product.name}}</h2>
+                </div>
+                <div class="col-3">
+                    <p> Ингредиенты: {% for i in prod.sweet_product.ingredients %}
+                        {{i.name}}
+                        {% endfor %}</p>
+                    <p>Кол: {{prod.count}}</p>
+                </div>
+                <div class="col-3">
+                    <p>Общая цена: {{prod.count * prod.price}}</p>
+                </div>
+                <div class="col">
+                    <a href="{{url_for('manager_blueprint.order_car_update',  id_order=prod.id_order, id_sweet_product=prod.id_sweet_product)}}" class="btn btn-danger">Редактировать</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+       <form action="{{url_for('manager_blueprint.order_update', uuid=order.trace_id)}}" method="POST">
+            {{ form.hidden_tag() }}
+            <h1>Информация о заказе</h1>
+            <p>Время заказа: {{order.datatime_order}}</p>
+            <p>Тип заказа: {{ type_order[order.type_order.value] }}</p>
+            <p>Состояние заказа: {{form.state_order(class_="form-select form-select-lg mb-3")}}</p>
+            {% if order.type_order.value == 1 %}
+                <p>Адресс: {{form.bakeries(class_="form-select form-select-lg mb-3")}}</p>
+            {% else %}
+                <div class="mb-3">
+                    {{ form.address.label(class_="form-label") }}
+                    {{ form.address(class_="form-control", rows="3") }}
+                </div>
+            {% endif %}
+            <p>Описание: {{order.description}}</p>
+            {{ form.submit(class_="btn btn-primary") }}
+       </form>
+    </div>
+</div>
+{% endblock %}

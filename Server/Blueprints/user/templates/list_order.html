@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% if orders%}
+            {% for order in orders %}
+            <div class="col-12 prod_card">
+                <div class="row">
+                    <div class="col">
+                        Заказ № {{order.trace_id}}
+                    </div>
+                    <div class="col">
+                        Статус заказа {{state_order[order.status_order.value]}}
+                       
+                    </div>
+                    <div class="col">
+                        Общая стоимость {{order.sum_price}}
+                    </div>
+                    <div class="col">
+                        <a href="{{url_for('user_blueprint.info_order',  uuid=order.trace_id)}}" class="btn btn-danger">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <h1 style="text-align: center; margin-top: 30px; margin-bottom: 30px">Истории заказов нет</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

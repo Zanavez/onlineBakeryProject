@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h1 style="text-align: center; margin-top: 30px; margin-bottom: 30px">Номер брони</h1>
+        <h3>{{reg.trace_id}}</h3>
+    </div>
+    <div class="row">
+        {% for tb in tables_info %}
+        <div class="col-12 prod_card">
+            <div class="row">
+                <div class="col-3">
+                    <h2>{{tb}}</h2>
+                </div>
+                <div class="col-9">
+                    <p> Время:
+                        {% for i in tables_info[tb] %}
+                            {{i}}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+       <form action="{{url_for('manager_blueprint.update_reg_table', uuid=reg.trace_id)}}" method="POST">
+            {{ form.hidden_tag() }}
+            <h1>Информация о брони</h1>
+            <p>ФИО: {{reg.surname}} {{reg.name[0]}}. {{reg.patronymics[0]}}.</p>
+            <p>Дата бронирования: {{form.date_reg(class_="form-control")}}</p>
+            <p>Телефон: {{reg.phone}}</p>
+            <p>Пекарня:{{ reg.bakery.name }}</p>
+            <p>Столик: {{form.table(class_="form-select form-select-lg")}}</p>
+            <p>Состояние заказа: {{form.state_reg(class_="form-select form-select-lg")}}</p>
+            <p>Начало: {{form.start_time(class_="form-select form-select-lg")}}</p>
+            <p>Конец: {{form.end_time(class_="form-select form-select-lg")}}</p>
+           <div class="alert alert-danger" role="alert">
+                Ошибка бронирования: указанная дата или время уже забронированы другим клиентом!
+           </div>
+            {{ form.submit(class_="btn btn-primary") }}
+       </form>
+    </div>
+
+</div>
+
+{% endblock %}

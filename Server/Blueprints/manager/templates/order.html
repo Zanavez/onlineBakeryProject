@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% if orders %}
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Пользователь</th>
+                    <th scope="col">Время заказа</th>
+                    <th scope="col">Тип заказа</th>
+                    <th scope="col">Статус заказа</th>
+                    <th scope="col">Наполнение</th>
+                    <th scope="col">Адрес:</th>
+                    <th scope="col">Описание</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                          <td>{{order.user}}</td>
+                          <td>{{order.datatime_order}}</td>
+                          <td>{{type_order[order.type_order.value]}}</td>
+                          <td>{{state_order[order.status_order.value]}}</td>
+                          <td>{% for i in order.sweet_products %}
+                            {{i}}
+                            {% endfor %}</td>
+                          <td>{{order.address}}</td>
+                          <td>{{order.description}}</td>
+                          <td><a href="{{url_for('manager_blueprint.order_update',  uuid=order.trace_id)}}" class="btn btn-danger">Редактировать</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+        {% else %}
+            <h1>Пользователей нет</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
